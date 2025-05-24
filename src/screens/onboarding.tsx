@@ -11,6 +11,7 @@ import {
   TextStyle,
   ImageStyle,
   Dimensions,
+  Platform,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
@@ -274,7 +275,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   page0_statusBar: {
-    
+    height: Platform.OS === 'android' ? sh(47) : 0,
   },
   page0_contentContainer: {
     marginTop: sh(12),
@@ -349,7 +350,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   page1_statusBar: {
-    
+    height: Platform.OS === 'android' ? sh(47) : 0,
   },
   page1_titleSection: {
     position: 'absolute',
@@ -411,6 +412,7 @@ const styles = StyleSheet.create({
   } as ImageStyle,
   page2_safeArea: {
     flex: 1,
+    paddingTop: Platform.OS === 'android' ? sh(47) : 0,
   },
   page2_headerTextContainer: {
     
