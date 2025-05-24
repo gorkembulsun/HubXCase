@@ -131,9 +131,8 @@ const UnifiedOnboardingScreen = ({
           {/* Title Section */}
           <View style={styles.page1_titleSection}>
             <Text style={styles.page1_titleText}>
-              Take a photo to <Text style={styles.page1_titleTextBold}>identify</Text>{' '}
-              {'\n'}
-              <Text>the plant!</Text>
+              Take a photo to <Text style={styles.page1_titleTextBold}>identify</Text>{'\n'}
+              the plant!
             </Text>
             <Image
               source={require('../assets/images/onboarding1/brush_stroke.png')}
@@ -275,7 +274,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   page0_statusBar: {
-    height: sh(47),
+    
   },
   page0_contentContainer: {
     marginTop: sh(12),
@@ -350,7 +349,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   page1_statusBar: {
-    height: sh(47),
+    
   },
   page1_titleSection: {
     position: 'absolute',
@@ -365,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.fontSize28,
     color: COLORS.textDark,
     textAlign: 'left',
-    lineHeight: sh(28 * 1.185),
+    lineHeight: sh(33),
     letterSpacing: sw(-1),
   },
   page1_titleTextBold: {
@@ -414,7 +413,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   page2_headerTextContainer: {
-    marginTop: sh(59),
+    
     paddingHorizontal: sw(24),
   },
   page2_headerText: {
