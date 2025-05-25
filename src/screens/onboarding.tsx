@@ -239,16 +239,16 @@ const UnifiedOnboardingScreen = ({
           <View style={styles.page3_textContainer}>
             <Text style={styles.page3_premiumTitle}>PlantApp Premium</Text>
             <Text style={styles.page3_premiumSubtitle}>Access All Features</Text>
-            <ScrollView style={{marginTop: 20}} horizontal>
-              <View style={{width: sw(156), height: sh(130),backgroundColor: '#24342c',borderRadius: 14,
-              }}>
+            <ScrollView style={styles.page3_scrollView} horizontal>
+              <View style={styles.page3_scrollViewItemWrapper}>
               </View>
             </ScrollView>
           </View>
         </ImageBackground>
         <View style={styles.page3_bottomContentArea}>
-        <View style={{ borderWidth: 0.5, borderColor:  '#FFFFFF4D', marginTop:3, height: 60, backgroundColor: '#FFFFFF0D',borderRadius: 14 }}>
-          
+        <View style={styles.page3_optionButton}>
+          <Text style={styles.page3_optionButtonText}>Option 1</Text>
+          <View style={styles.page3_optionButtonCircle} />
         </View>
         
         </View>
@@ -549,6 +549,45 @@ const styles = StyleSheet.create({
   },
   page3_getStartedButtonText: {
     ...baseButtonTextStyle,
+  },
+  page3_scrollView: {
+    position: 'absolute',
+    top: sh(250-24-130),
+    zIndex: 10,
+  },
+  page3_scrollViewItemWrapper: {
+    width: sw(156),
+    height: sh(130),
+    backgroundColor: '#24342c',
+    borderRadius: 14,
+  },
+  page3_optionButton: {
+    position: 'absolute',
+    bottom: sh(250),
+    left: sw(24),
+    right: sw(24),
+    borderWidth: 0.5,
+    borderColor: '#FFFFFF4D',
+    marginTop: 3,
+    height: 60,
+    backgroundColor: '#FFFFFF0D',
+    borderRadius: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  page3_optionButtonText: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontFamily: FONTS.rubikRegular,
+  },
+  page3_optionButtonCircle: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
   },
 });
 
