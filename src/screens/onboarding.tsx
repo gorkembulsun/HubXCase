@@ -232,49 +232,72 @@ const UnifiedOnboardingScreen = ({
 
   const renderPage3 = () => {
     return (
-      <View style={{flex:1}}>
+      <View style={styles.page3_container}>
         <ImageBackground
           source={require('../assets/images/plant3.png')}
-          style={{height:571}}
+          style={styles.page3_imageBackground}
           resizeMode="cover"
         >
           <View style={styles.page3_textContainer}>
             <Text style={styles.page3_premiumTitle}>PlantApp Premium</Text>
             <Text style={styles.page3_premiumSubtitle}>Access All Features</Text>
-            <ScrollView style={styles.page3_scrollView} horizontal>
-              {mock.map(() => <View style={styles.page3_scrollViewItemWrapper}>
-              </View>)}
+          </View>
+          
+          <View style={styles.page3_scrollViewContainer}>
+            <ScrollView style={styles.page3_scrollView} horizontal showsHorizontalScrollIndicator={false}>
+              {mock.map((item, index) => (
+                <View key={index} style={styles.page3_scrollViewItemWrapper}>
+                  <View style={styles.page3_featureIcon}>
+                    <Text style={styles.page3_featureIconText}>🔍</Text>
+                  </View>
+                  <Text style={styles.page3_featureTitle}>
+                    {index === 0 ? 'Unlimited' : index === 1 ? 'Faster' : 'Advanced'}
+                  </Text>
+                  <Text style={styles.page3_featureSubtitle}>
+                    {index === 0 ? 'Plant Identify' : index === 1 ? 'Process' : 'Features'}
+                  </Text>
+                </View>
+              ))}
             </ScrollView>
           </View>
         </ImageBackground>
         
-        
-        
-      <View style={{backgroundColor:'red',paddingHorizontal:24, position:'relative', width:'100%', height: Dimensions.get('window').width * 1}}>
-        <View style={[styles.page3_optionButton,{marginTop:20}]}>
+        <View style={styles.page3_bottomContentArea}>
+          <View style={styles.page3_optionButton}>
             <View style={styles.page3_optionButtonCircle} />
-            <View style={{marginLeft:10}}>
+            <View style={styles.page3_optionButtonTextContainer}>
               <Text style={styles.page3_optionButtonText}>1 Month</Text>
-              <Text style={styles.page3_optionButtonText}>$2.99/month, auto renewable</Text>
-
+              <Text style={styles.page3_optionButtonSubText}>$2.99/month, auto renewable</Text>
             </View>
           </View>
-          <View style={[styles.page3_optionButton,{marginTop:20}]}>
-            <View style={{position:'absolute',backgroundColor:'#28AF6E', height:26,width:77, top:0,right:0,borderTopRightRadius:14,borderBottomLeftRadius:20, alignItems:'center',justifyContent:'center'}}>
-              <Text style={{color:'#fff'}}>kjjhjk</Text>
+          
+          <View style={[styles.page3_optionButton, styles.page3_selectedOption]}>
+            <View style={styles.page3_badge}>
+              <Text style={styles.page3_badgeText}>Save 50%</Text>
             </View>
-            <View style={styles.page3_optionButtonCircle} />
-              <View style={{marginLeft:10}}>
-                <Text style={styles.page3_optionButtonText}>1 Month</Text>
-                <Text style={styles.page3_optionButtonText}>$2.99/month, auto renewable</Text>
-
-              </View>
+            <View style={[styles.page3_optionButtonCircle, styles.page3_selectedCircle]} />
+            <View style={styles.page3_optionButtonTextContainer}>
+              <Text style={styles.page3_optionButtonText}>1 Year</Text>
+              <Text style={styles.page3_optionButtonSubText}>First 3 days free, then $529.99/year</Text>
+            </View>
           </View>
-        
-        
+          
+          <TouchableOpacity style={styles.page3_tryFreeButton} onPress={handlePage3Next}>
+            <Text style={styles.page3_tryFreeButtonText}>Try free for 3 days</Text>
+          </TouchableOpacity>
+          
+          <Text style={styles.page3_disclaimerText}>
+            After the 3-day free trial period you'll be charged $529.99 per year unless you cancel before the trial expires. Yearly Subscription.
+          </Text>
+          
+          <View style={styles.page3_linksContainer}>
+            <Text style={styles.page3_linkText}>Terms</Text>
+            <Text style={styles.page3_linkSeparator}> • </Text>
+            <Text style={styles.page3_linkText}>Privacy</Text>
+            <Text style={styles.page3_linkSeparator}> • </Text>
+            <Text style={styles.page3_linkText}>Restore</Text>
+          </View>
         </View>
-
-        
       </View>
     );
   };
@@ -536,32 +559,36 @@ const styles = StyleSheet.create({
   //   flex: 1,
   //   backgroundColor: COLORS.backgroundLight, // Example background
   // },
+  page3_container: {
+    flex: 1,
+  },
   page3_imageBackground: {
-    flex: 0.6,
+    height: sh(500), // Fixed responsive height
+    width: '100%',
   },
   page3_textContainer: {
-    top: 280,
-    marginLeft: 24,
-    marginTop: 47
-    
+    position: 'absolute',
+    top: sh(280),
+    left: sw(24),
+    right: sw(24),
   },
   page3_premiumTitle: {
     color: COLORS.white,
-    fontSize: 30,
+    fontSize: sf(30),
     fontFamily: FONTS.rubikBold,
     fontWeight: '700',
-   
   },
   page3_premiumSubtitle: {
     color: 'rgba(255, 255, 255, 0.7)',
-    fontSize: 17,
+    fontSize: sf(17),
     fontFamily: FONTS.rubikRegular,
-    marginTop: sh(4),
+    marginTop: sh(8),
   },
   page3_bottomContentArea: {
-    flex: 0.4,
+    flex: 1,
     backgroundColor: '#101E17',
     paddingHorizontal: sw(24),
+    paddingTop: sh(24),
   },
   page3_getStartedButton: {
     ...baseButtonStyle,
@@ -571,41 +598,140 @@ const styles = StyleSheet.create({
     ...baseButtonTextStyle,
   },
   page3_scrollView: {
-    position: 'absolute',
-    top: sh(250-24-130),
-    zIndex: 10,
+    flex: 1,
   },
   page3_scrollViewItemWrapper: {
     width: sw(156),
     height: sh(130),
     backgroundColor: '#24342c',
     borderRadius: 14,
-    marginRight:8
+    marginRight: sw(8),
+    padding: sw(16),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   page3_optionButton: {
     position: 'relative',
     zIndex: 10,
     borderWidth: 0.5,
     borderColor: '#FFFFFF4D',
-    marginTop: 3,
     height: sh(60),
     backgroundColor: '#FFFFFF0D',
     borderRadius: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: sw(16),
+    marginBottom: sh(12),
   },
   page3_optionButtonText: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: sf(16),
     fontFamily: FONTS.rubikRegular,
+    fontWeight: '500',
+  },
+  page3_optionButtonSubText: {
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: sf(12),
+    fontFamily: FONTS.rubikRegular,
+    marginTop: sh(2),
   },
   page3_optionButtonCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: sw(24),
+    height: sw(24), // Use sw for both to keep it circular
+    borderRadius: sw(12),
     borderWidth: 2,
     borderColor: '#FFFFFF',
+  },
+  page3_badge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    backgroundColor: '#28AF6E',
+    paddingHorizontal: sw(8),
+    paddingVertical: sh(4),
+    borderTopRightRadius: 14,
+    borderBottomLeftRadius: 14,
+    zIndex: 1,
+  },
+  page3_badgeText: {
+    color: '#FFFFFF',
+    fontSize: sf(10),
+    fontFamily: FONTS.rubikRegular,
+    fontWeight: '600',
+  },
+     page3_scrollViewContainer: {
+     position: 'absolute',
+     bottom: sh(0),
+     left: sw(24),
+     right: sw(24),
+     height: sh(130),
+   },
+  page3_featureIcon: {
+    width: sw(32),
+    height: sh(32),
+    borderRadius: sw(16),
+    backgroundColor: '#FFFFFF20',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  page3_featureIconText: {
+    fontSize: sf(16),
+    fontFamily: FONTS.rubikRegular,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  page3_featureTitle: {
+    fontSize: sf(18),
+    fontFamily: FONTS.rubikRegular,
+    fontWeight: '600',
+    color: '#FFFFFF',
+    marginTop: sh(8),
+  },
+  page3_featureSubtitle: {
+    fontSize: sf(14),
+    fontFamily: FONTS.rubikRegular,
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+  page3_selectedOption: {
+    borderWidth: 2,
+    borderColor: '#FFFFFF4D',
+  },
+  page3_selectedCircle: {
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+  },
+     page3_optionButtonTextContainer: {
+     flex: 1,
+     marginLeft: sw(10),
+   },
+  page3_tryFreeButton: {
+    ...baseButtonStyle,
+    marginBottom: sh(20),
+  },
+  page3_tryFreeButtonText: {
+    ...baseButtonTextStyle,
+  },
+  page3_disclaimerText: {
+    fontSize: sf(12),
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontFamily: FONTS.rubikRegular,
+    textAlign: 'center',
+  },
+  page3_linksContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  page3_linkText: {
+    fontSize: sf(12),
+    color: '#FFFFFF',
+    fontFamily: FONTS.rubikRegular,
+  },
+  page3_linkSeparator: {
+    fontSize: sf(12),
+    color: '#FFFFFF',
+    fontFamily: FONTS.rubikRegular,
+    marginHorizontal: sw(4),
   },
 });
 
