@@ -250,7 +250,7 @@ const UnifiedOnboardingScreen = ({
         
         
         
-      <View style={{flex:1,backgroundColor:'#101E17',paddingHorizontal:24}}>
+      <View style={{backgroundColor:'red',paddingHorizontal:24, position:'relative', width:'100%', height: Dimensions.get('window').width * 1}}>
         <View style={[styles.page3_optionButton,{marginTop:20}]}>
             <View style={styles.page3_optionButtonCircle} />
             <View style={{marginLeft:10}}>
@@ -576,20 +576,19 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   page3_scrollViewItemWrapper: {
-    width: 156,
-    height: 130,
+    width: sw(156),
+    height: sh(130),
     backgroundColor: '#24342c',
     borderRadius: 14,
     marginRight:8
   },
   page3_optionButton: {
-    // top: sh(250-24-130),
-    // left: sw(24),
-    // right: sw(24),
+    position: 'relative',
+    zIndex: 10,
     borderWidth: 0.5,
     borderColor: '#FFFFFF4D',
     marginTop: 3,
-    height: 60,
+    height: sh(60),
     backgroundColor: '#FFFFFF0D',
     borderRadius: 14,
     flexDirection: 'row',
