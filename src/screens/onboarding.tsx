@@ -38,8 +38,10 @@ const UnifiedOnboardingScreen = ({
   // --- Handlers ---
   const handlePage0Next = () => setCurrentPage(1);
   const handlePage1Next = () => setCurrentPage(2);
-  const handlePage2Next = () => {
-    console.log("Navigate to main app");
+  const handlePage2Next = () => setCurrentPage(3);
+  const handlePage3Next = () => {
+    console.log("Navigate to main app from page 3");
+    // Example: navigation.navigate('Home');
   };
 
   // --- Effects ---
@@ -56,7 +58,7 @@ const UnifiedOnboardingScreen = ({
     return (
       <View style={[styles.paginationContainer, { bottom: calculatedDotsBottom }]}>
         <Dots
-          length={3}
+          length={4}
           active={currentPage - 1}
           activeColor={COLORS.textDark}
           passiveColor={COLORS.paginationDotInactive}
@@ -225,14 +227,36 @@ const UnifiedOnboardingScreen = ({
     );
   };
 
+  const renderPage3 = () => {
+    return (
+      <SafeAreaView style={{flex: 1}}>
+        <ImageBackground
+          source={require('../assets/images/plant3.png')}
+          style={styles.page3_imageBackground}
+          resizeMode="cover"
+        >
+          <View style={styles.page3_textContainer}>
+            <Text style={styles.page3_premiumTitle}>PlantApp Premium</Text>
+            <Text style={styles.page3_premiumSubtitle}>Access All Features</Text>
+          </View>
+        </ImageBackground>
+        <View style={styles.page3_bottomContentArea}>
+          {/* Other content for the bottom section can go here if needed later */}
+        </View>
+      </SafeAreaView>
+    );
+  };
+
   // --- Conditional Rendering based on currentPage ---
   let pageContent;
   if (currentPage === 0) {
     pageContent = renderPage0();
   } else if (currentPage === 1) {
     pageContent = renderPage1();
-  } else {
+  } else if (currentPage === 2) {
     pageContent = renderPage2();
+  } else {
+    pageContent = renderPage3();
   }
 
   return (
@@ -275,7 +299,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   page0_statusBar: {
-    height: Platform.OS === 'android' ? sh(47) : 0,
+    
   },
   page0_contentContainer: {
     marginTop: sh(12),
@@ -356,10 +380,11 @@ const styles = StyleSheet.create({
     
     top: sh(59),
     left: sw(24),
-    width: sw(280),
+    alignSelf: 'flex-start',
     height: sh(66),
     position: 'relative',
     justifyContent: 'center',
+    alignItems: 'flex-end',
 
   },
   page1_titleText: {
@@ -367,8 +392,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: TYPOGRAPHY.fontSize28,
     color: COLORS.textDark,
-    textAlign: 'left',
-    lineHeight: sh(33),
     letterSpacing: sw(-1),
     
   },
@@ -378,11 +401,10 @@ const styles = StyleSheet.create({
   },
   page1_brushStrokeImage: {
     position: 'absolute',
-    right: sw(0),
     marginTop: sh(10),
-    width: sw(141),
+    width: 141,
     height: sh(29),
-    resizeMode: 'cover',
+    resizeMode: 'contain',
   } as ImageStyle,
   page1_phoneImageContainer: {
   },
@@ -390,7 +412,7 @@ const styles = StyleSheet.create({
     height: sh(700),
     width: sw(375),
     position: 'absolute',
-    top: sh(64),
+    top: 25,
     alignSelf: 'center',
     resizeMode: 'contain',
   } as ImageStyle,
@@ -419,8 +441,9 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? sh(47) : 0,
   },
   page2_headerTextContainer: {
-    
-    paddingHorizontal: sw(24),
+    position: 'relative',
+    left: sw(24),
+    alignSelf: 'flex-start',
   },
   page2_headerText: {
     fontSize: TYPOGRAPHY.fontSize28,
@@ -435,11 +458,11 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
   },
   page2_brushImage: {
-    width: sw(152),
+    width: 152,
     height: sh(13),
-    position: 'absolute',
-    top: sh(35),
-    left: sw(102),
+    top: 3,
+    alignSelf: 'flex-end',
+    alignItems: 'flex-end',
     resizeMode: 'contain',
   } as ImageStyle,
   page2_artworkImage: {
@@ -477,6 +500,54 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     zIndex: 5,
+  },
+  // --- Generic Page Styles (can be used for Page 3 or customized) ---
+  // page3_container: {
+  //   flex: 1,
+  //   backgroundColor: COLORS.backgroundLight, // Example background
+  // },
+  page3_imageBackground: {
+    flex: 0.7,
+    
+  },
+  page3_textContainer: {
+    top: 235,
+    marginLeft: 24,
+    marginTop: Platform.OS === 'android' ? sh(47) : 0,
+  
+    
+  },
+  page3_premiumTitle: {
+    color: COLORS.white,
+    fontSize: TYPOGRAPHY.fontSize28,
+    fontFamily: FONTS.rubikBold,
+    fontWeight: '700',
+   
+  },
+  page3_premiumSubtitle: {
+    color: COLORS.white,
+    fontSize: TYPOGRAPHY.fontSize16,
+    fontFamily: FONTS.rubikRegular,
+    marginTop: sh(4),
+  },
+  page3_bottomContentArea: {
+    flex: 0.3,
+    backgroundColor: '#101E17',
+    paddingHorizontal: sw(24),
+  },
+  page3_bottomSection: {
+    backgroundColor: '#101E17',
+    height: sh(290),
+    paddingHorizontal: sw(24),
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  page3_getStartedButton: {
+    ...baseButtonStyle,
+    marginBottom: sh(0),
+  },
+  page3_getStartedButtonText: {
+    ...baseButtonTextStyle,
   },
 });
 
