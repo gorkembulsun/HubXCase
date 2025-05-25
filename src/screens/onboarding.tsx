@@ -228,30 +228,53 @@ const UnifiedOnboardingScreen = ({
     );
   };
 
+  const mock = [1,1,1]
+
   const renderPage3 = () => {
     return (
-      <View style={{flex: 1,}}>
+      <View style={{flex:1}}>
         <ImageBackground
           source={require('../assets/images/plant3.png')}
-          style={styles.page3_imageBackground}
+          style={{height:571}}
           resizeMode="cover"
         >
           <View style={styles.page3_textContainer}>
             <Text style={styles.page3_premiumTitle}>PlantApp Premium</Text>
             <Text style={styles.page3_premiumSubtitle}>Access All Features</Text>
             <ScrollView style={styles.page3_scrollView} horizontal>
-              <View style={styles.page3_scrollViewItemWrapper}>
-              </View>
+              {mock.map(() => <View style={styles.page3_scrollViewItemWrapper}>
+              </View>)}
             </ScrollView>
           </View>
         </ImageBackground>
-        <View style={styles.page3_bottomContentArea}>
-        <View style={styles.page3_optionButton}>
-          <Text style={styles.page3_optionButtonText}>Option 1</Text>
-          <View style={styles.page3_optionButtonCircle} />
-        </View>
+        
+        
+        
+      <View style={{flex:1,backgroundColor:'#101E17',paddingHorizontal:24}}>
+        <View style={[styles.page3_optionButton,{marginTop:20}]}>
+            <View style={styles.page3_optionButtonCircle} />
+            <View style={{marginLeft:10}}>
+              <Text style={styles.page3_optionButtonText}>1 Month</Text>
+              <Text style={styles.page3_optionButtonText}>$2.99/month, auto renewable</Text>
+
+            </View>
+          </View>
+          <View style={[styles.page3_optionButton,{marginTop:20}]}>
+            <View style={{position:'absolute',backgroundColor:'#28AF6E', height:26,width:77, top:0,right:0,borderTopRightRadius:14,borderBottomLeftRadius:20, alignItems:'center',justifyContent:'center'}}>
+              <Text style={{color:'#fff'}}>kjjhjk</Text>
+            </View>
+            <View style={styles.page3_optionButtonCircle} />
+              <View style={{marginLeft:10}}>
+                <Text style={styles.page3_optionButtonText}>1 Month</Text>
+                <Text style={styles.page3_optionButtonText}>$2.99/month, auto renewable</Text>
+
+              </View>
+          </View>
+        
         
         </View>
+
+        
       </View>
     );
   };
@@ -386,8 +409,6 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'android' ? sh(47) : 0,
   },
   page1_titleSection: {
-    
-    top: sh(59),
     left: sw(24),
     alignSelf: 'flex-start',
     height: sh(66),
@@ -519,10 +540,9 @@ const styles = StyleSheet.create({
     flex: 0.6,
   },
   page3_textContainer: {
-    top: 235,
+    top: 280,
     marginLeft: 24,
     marginTop: 47
-  
     
   },
   page3_premiumTitle: {
@@ -556,16 +576,16 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   page3_scrollViewItemWrapper: {
-    width: sw(156),
-    height: sh(130),
+    width: 156,
+    height: 130,
     backgroundColor: '#24342c',
     borderRadius: 14,
+    marginRight:8
   },
   page3_optionButton: {
-    position: 'absolute',
-    bottom: sh(250),
-    left: sw(24),
-    right: sw(24),
+    // top: sh(250-24-130),
+    // left: sw(24),
+    // right: sw(24),
     borderWidth: 0.5,
     borderColor: '#FFFFFF4D',
     marginTop: 3,
@@ -577,7 +597,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   page3_optionButtonText: {
-    flex: 1,
     color: '#FFFFFF',
     fontSize: 16,
     fontFamily: FONTS.rubikRegular,
