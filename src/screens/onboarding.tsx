@@ -229,7 +229,7 @@ const UnifiedOnboardingScreen = ({
 
   const renderPage3 = () => {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1,}}>
         <ImageBackground
           source={require('../assets/images/plant3.png')}
           style={styles.page3_imageBackground}
@@ -243,7 +243,7 @@ const UnifiedOnboardingScreen = ({
         <View style={styles.page3_bottomContentArea}>
           {/* Other content for the bottom section can go here if needed later */}
         </View>
-      </SafeAreaView>
+      </View>
     );
   };
 
@@ -507,13 +507,12 @@ const styles = StyleSheet.create({
   //   backgroundColor: COLORS.backgroundLight, // Example background
   // },
   page3_imageBackground: {
-    flex: 0.7,
-    
+    flex: 0.6,
   },
   page3_textContainer: {
     top: 235,
     marginLeft: 24,
-    marginTop: Platform.OS === 'android' ? sh(47) : 0,
+    marginTop: 47
   
     
   },
@@ -531,7 +530,7 @@ const styles = StyleSheet.create({
     marginTop: sh(4),
   },
   page3_bottomContentArea: {
-    flex: 0.3,
+    flex: 0.4,
     backgroundColor: '#101E17',
     paddingHorizontal: sw(24),
   },
