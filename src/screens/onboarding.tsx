@@ -353,24 +353,24 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'android' ? sh(47) : 0,
   },
   page1_titleSection: {
-    flexDirection: 'row',
-   
-    alignItems: 'center',
-    position: 'absolute',
+    
     top: sh(59),
     left: sw(24),
-    width: sw(260),
+    width: sw(280),
     height: sh(66),
-    
+    position: 'relative',
+    justifyContent: 'center',
+
   },
   page1_titleText: {
     fontFamily: FONTS.rubikRegular,
     fontWeight: '500',
     fontSize: TYPOGRAPHY.fontSize28,
     color: COLORS.textDark,
-    lineHeight: sh(33.18),
-    letterSpacing: sw(-0.035 * TYPOGRAPHY.fontSize28),
     textAlign: 'left',
+    lineHeight: sh(33),
+    letterSpacing: sw(-1),
+    
   },
   page1_titleTextBold: {
     fontFamily: FONTS.rubikBold,
@@ -378,11 +378,11 @@ const styles = StyleSheet.create({
   },
   page1_brushStrokeImage: {
     position: 'absolute',
-    top: sh(34),
-    right: sw(10),
-    width: sw(136),
-    height: sh(13),
-    resizeMode: 'contain',
+    right: sw(0),
+    marginTop: sh(10),
+    width: sw(141),
+    height: sh(29),
+    resizeMode: 'cover',
   } as ImageStyle,
   page1_phoneImageContainer: {
   },
