@@ -12,6 +12,7 @@ import {
   ImageStyle,
   Dimensions,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
@@ -238,10 +239,18 @@ const UnifiedOnboardingScreen = ({
           <View style={styles.page3_textContainer}>
             <Text style={styles.page3_premiumTitle}>PlantApp Premium</Text>
             <Text style={styles.page3_premiumSubtitle}>Access All Features</Text>
+            <ScrollView style={{marginTop: 20}} horizontal>
+              <View style={{width: sw(156), height: sh(130),backgroundColor: '#24342c',borderRadius: 14,
+              }}>
+              </View>
+            </ScrollView>
           </View>
         </ImageBackground>
         <View style={styles.page3_bottomContentArea}>
-          {/* Other content for the bottom section can go here if needed later */}
+        <View style={{ borderWidth: 0.5, borderColor:  '#FFFFFF4D', marginTop:3, height: 60, backgroundColor: '#FFFFFF0D',borderRadius: 14 }}>
+          
+        </View>
+        
         </View>
       </View>
     );
@@ -518,14 +527,14 @@ const styles = StyleSheet.create({
   },
   page3_premiumTitle: {
     color: COLORS.white,
-    fontSize: TYPOGRAPHY.fontSize28,
+    fontSize: 30,
     fontFamily: FONTS.rubikBold,
     fontWeight: '700',
    
   },
   page3_premiumSubtitle: {
-    color: COLORS.white,
-    fontSize: TYPOGRAPHY.fontSize16,
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: 17,
     fontFamily: FONTS.rubikRegular,
     marginTop: sh(4),
   },
@@ -533,13 +542,6 @@ const styles = StyleSheet.create({
     flex: 0.4,
     backgroundColor: '#101E17',
     paddingHorizontal: sw(24),
-  },
-  page3_bottomSection: {
-    backgroundColor: '#101E17',
-    height: sh(290),
-    paddingHorizontal: sw(24),
-    justifyContent: 'space-around',
-    alignItems: 'center',
   },
   page3_getStartedButton: {
     ...baseButtonStyle,
