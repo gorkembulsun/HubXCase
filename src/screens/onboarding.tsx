@@ -35,6 +35,7 @@ const UnifiedOnboardingScreen = ({
 }: UnifiedOnboardingScreenProps) => {
   // --- State ---
   const [currentPage, setCurrentPage] = useState(0);
+  const [selectedOption, setSelectedOption] = useState('1Year'); // Default to 1 Year
 
   // --- Handlers ---
   const handlePage0Next = () => setCurrentPage(1);
@@ -238,17 +239,29 @@ const UnifiedOnboardingScreen = ({
           style={styles.page3_imageBackground}
           resizeMode="cover"
         >
+          <TouchableOpacity onPress={() => navigation.navigate('HomePage')} style={styles.page3_closeButtonContainer}>
+            <View style={styles.page3_closeButtonBackground}>
+              <Text style={styles.page3_closeButtonText}>✕</Text>
+            </View>
+          </TouchableOpacity>
+
           <View style={styles.page3_textContainer}>
-            <Text style={styles.page3_premiumTitle}>PlantApp Premium</Text>
+            <Text style={styles.page3_premiumTitle}><Text style={{fontWeight: 'bold', fontSize: sf(30) }}>PlantApp</Text> Premium</Text>
             <Text style={styles.page3_premiumSubtitle}>Access All Features</Text>
           </View>
           
           <View style={styles.page3_scrollViewContainer}>
             <ScrollView style={styles.page3_scrollView} horizontal showsHorizontalScrollIndicator={false}>
               {mock.map((item, index) => (
-                <View key={index} style={styles.page3_scrollViewItemWrapper}>
-                  <View style={styles.page3_featureIcon}>
-                    <Text style={styles.page3_featureIconText}>🔍</Text>
+                <TouchableOpacity key={index} style={styles.page3_scrollViewItemWrapper} onPress={() => console.log(`Feature card ${index} pressed`)}>
+                  <View>
+                    {index === 0 ? (
+                      <Image source={require('../assets/images/unlimitedicon.png')} style={styles.page3_featureImage} />
+                    ) : index === 1 ? (
+                      <Image source={require('../assets/images/fastericon.png')} style={styles.page3_featureImage} />
+                    ) : (
+                      <Text style={styles.page3_featureIconText}>?</Text> // Default/fallback icon or text
+                    )}
                   </View>
                   <Text style={styles.page3_featureTitle}>
                     {index === 0 ? 'Unlimited' : index === 1 ? 'Faster' : 'Advanced'}
@@ -256,31 +269,35 @@ const UnifiedOnboardingScreen = ({
                   <Text style={styles.page3_featureSubtitle}>
                     {index === 0 ? 'Plant Identify' : index === 1 ? 'Process' : 'Features'}
                   </Text>
-                </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           </View>
         </ImageBackground>
         
         <View style={styles.page3_bottomContentArea}>
-          <View style={styles.page3_optionButton}>
-            <View style={styles.page3_optionButtonCircle} />
+          <TouchableOpacity style={[styles.page3_optionButton, selectedOption === '1Month' && styles.page3_selectedOption]} onPress={() => setSelectedOption('1Month')}>
+            <View style={[styles.page3_optionButtonCircle, selectedOption === '1Month' && styles.page3_selectedCircle]}>
+              {selectedOption === '1Month' && <View style={styles.page3_selectedDot} />}
+            </View>
             <View style={styles.page3_optionButtonTextContainer}>
               <Text style={styles.page3_optionButtonText}>1 Month</Text>
               <Text style={styles.page3_optionButtonSubText}>$2.99/month, auto renewable</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           
-          <View style={[styles.page3_optionButton, styles.page3_selectedOption]}>
+          <TouchableOpacity style={[styles.page3_optionButton, selectedOption === '1Year' && styles.page3_selectedOption]} onPress={() => setSelectedOption('1Year')}>
             <View style={styles.page3_badge}>
               <Text style={styles.page3_badgeText}>Save 50%</Text>
             </View>
-            <View style={[styles.page3_optionButtonCircle, styles.page3_selectedCircle]} />
+            <View style={[styles.page3_optionButtonCircle, selectedOption === '1Year' && styles.page3_selectedCircle]}>
+              {selectedOption === '1Year' && <View style={styles.page3_selectedDot} />}
+            </View>
             <View style={styles.page3_optionButtonTextContainer}>
               <Text style={styles.page3_optionButtonText}>1 Year</Text>
               <Text style={styles.page3_optionButtonSubText}>First 3 days free, then $529.99/year</Text>
             </View>
-          </View>
+          </TouchableOpacity>
           
           <TouchableOpacity style={styles.page3_tryFreeButton} onPress={handlePage3Next}>
             <Text style={styles.page3_tryFreeButtonText}>Try free for 3 days</Text>
@@ -434,10 +451,11 @@ const styles = StyleSheet.create({
   page1_titleSection: {
     left: sw(24),
     alignSelf: 'flex-start',
-    height: sh(66),
+    height: sh(100),
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'flex-end',
+   
 
   },
   page1_titleText: {
@@ -446,15 +464,17 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.fontSize28,
     color: COLORS.textDark,
     letterSpacing: sw(-1),
+    zIndex: 10,
     
   },
   page1_titleTextBold: {
     fontFamily: FONTS.rubikBold,
     fontWeight: '800',
+    
   },
   page1_brushStrokeImage: {
     position: 'absolute',
-    marginTop: sh(10),
+    marginTop: sh(20),
     width: 141,
     height: sh(29),
     resizeMode: 'contain',
@@ -465,9 +485,10 @@ const styles = StyleSheet.create({
     height: sh(700),
     width: sw(375),
     position: 'absolute',
-    top: 25,
+    top: sh(-30),
     alignSelf: 'center',
     resizeMode: 'contain',
+    
   } as ImageStyle,
   page1_buttonSection: {
     position: 'absolute',
@@ -576,7 +597,7 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: sf(30),
     fontFamily: FONTS.rubikBold,
-    fontWeight: '700',
+    fontWeight: '100',
   },
   page3_premiumSubtitle: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -587,8 +608,8 @@ const styles = StyleSheet.create({
   page3_bottomContentArea: {
     flex: 1,
     backgroundColor: '#101E17',
-    paddingHorizontal: sw(24),
-    paddingTop: sh(24),
+    paddingHorizontal: sw(20),
+    paddingTop: sh(20),
   },
   page3_getStartedButton: {
     ...baseButtonStyle,
@@ -607,8 +628,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     marginRight: sw(8),
     padding: sw(16),
-    justifyContent: 'center',
-    alignItems: 'center',
+   
   },
   page3_optionButton: {
     position: 'relative',
@@ -628,6 +648,7 @@ const styles = StyleSheet.create({
     fontSize: sf(16),
     fontFamily: FONTS.rubikRegular,
     fontWeight: '500',
+   
   },
   page3_optionButtonSubText: {
     color: 'rgba(255, 255, 255, 0.7)',
@@ -641,21 +662,23 @@ const styles = StyleSheet.create({
     borderRadius: sw(12),
     borderWidth: 2,
     borderColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   page3_badge: {
     position: 'absolute',
-    top: 0,
-    right: 0,
+    top: -1,
+    right:-1,
     backgroundColor: '#28AF6E',
     paddingHorizontal: sw(8),
     paddingVertical: sh(4),
     borderTopRightRadius: 14,
-    borderBottomLeftRadius: 14,
+    borderBottomLeftRadius: 20,
     zIndex: 1,
   },
   page3_badgeText: {
     color: '#FFFFFF',
-    fontSize: sf(10),
+    fontSize: sf(12),
     fontFamily: FONTS.rubikRegular,
     fontWeight: '600',
   },
@@ -667,12 +690,7 @@ const styles = StyleSheet.create({
      height: sh(130),
    },
   page3_featureIcon: {
-    width: sw(32),
-    height: sh(32),
-    borderRadius: sw(16),
-    backgroundColor: '#FFFFFF20',
-    justifyContent: 'center',
-    alignItems: 'center',
+   
   },
   page3_featureIconText: {
     fontSize: sf(16),
@@ -681,24 +699,26 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   page3_featureTitle: {
-    fontSize: sf(18),
+    fontSize: sf(20),
     fontFamily: FONTS.rubikRegular,
     fontWeight: '600',
     color: '#FFFFFF',
     marginTop: sh(8),
+    letterSpacing: 0.38,
   },
   page3_featureSubtitle: {
-    fontSize: sf(14),
+    fontSize: sf(12),
     fontFamily: FONTS.rubikRegular,
     color: 'rgba(255, 255, 255, 0.7)',
   },
   page3_selectedOption: {
     borderWidth: 2,
-    borderColor: '#FFFFFF4D',
+    borderColor: COLORS.primary,
   },
   page3_selectedCircle: {
     borderWidth: 2,
-    borderColor: '#FFFFFF',
+    borderColor: COLORS.primary,
+    backgroundColor: COLORS.primary,
   },
      page3_optionButtonTextContainer: {
      flex: 1,
@@ -709,15 +729,21 @@ const styles = StyleSheet.create({
     marginBottom: sh(20),
   },
   page3_tryFreeButtonText: {
-    ...baseButtonTextStyle,
+    color: COLORS.white,
+    fontSize: sf(16),
+    fontFamily: FONTS.rubikRegular,
+    fontWeight: '700',
+    letterSpacing: TYPOGRAPHY.letterSpacingNegative024,
   },
   page3_disclaimerText: {
     fontSize: sf(12),
     color: 'rgba(255, 255, 255, 0.7)',
     fontFamily: FONTS.rubikRegular,
     textAlign: 'center',
+    marginTop: sh(-8),
   },
   page3_linksContainer: {
+    marginBottom: sh(21),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -732,6 +758,38 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontFamily: FONTS.rubikRegular,
     marginHorizontal: sw(4),
+  },
+    page3_selectedDot: {
+     width: sw(8),
+     height: sw(8),
+     borderRadius: sw(8),
+     backgroundColor: '#FFFFFF',
+     alignSelf: 'center',
+   },
+  page3_featureImage: {
+    width: sw(35),
+    height: sh(38),
+    resizeMode: 'cover',
+  },
+  page3_closeButtonContainer: {
+    position: 'absolute',
+    top: sh(50),
+    right: sw(20),
+    zIndex: 10,
+  },
+  page3_closeButtonBackground: {
+    width: sw(30),
+    height: sw(30),
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    borderRadius: sw(15),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  page3_closeButtonText: {
+    color: '#FFFFFF',
+    fontSize: sf(14),
+    fontWeight: 'bold',
+    lineHeight: sf(20),
   },
 });
 

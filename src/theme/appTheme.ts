@@ -36,6 +36,8 @@ export const COLORS = {
 export const FONTS = {
   rubikRegular: 'Rubik-Regular',
   rubikBold: 'Rubik-Bold',
+  rubikMediumItalic: 'Rubik-MediumItalic',
+  rubikExtraBoldItalic: 'Rubik-ExtraBoldItalic',
   sfProText: 'SF Pro Text', // Used for regular and fontWeight: '700'
   sfProTextBold: 'SFProText-Bold', // Specifically for Page 2 button, if it's a distinct font file
 };
