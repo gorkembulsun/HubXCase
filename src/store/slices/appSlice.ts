@@ -9,7 +9,7 @@ interface AppState {
   searchQuery: string;
   selectedCategory: string | null;
   scanHistory: ScanResult[];
-  favorites: string[]; // Array of plant IDs
+  favorites: string[]; 
   recentSearches: string[];
 }
 

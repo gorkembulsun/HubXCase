@@ -16,18 +16,14 @@ const scaleW = screenWidth / DESIGN_WIDTH;
 const scaleH = screenHeight / DESIGN_HEIGHT;
 
 /**
- * Scale width proportionally
+ * Scale width, height, fontsize proportionally
  */
 export const sw = (size: number): number => size * scaleW;
 
-/**
- * Scale height proportionally
- */
+
 export const sh = (size: number): number => size * scaleH;
 
-/**
- * Scale font size proportionally (uses minimum scale to prevent distortion)
- */
+
 export const sf = (size: number): number => size * Math.min(scaleW, scaleH);
 
 // --- Color Palette ---
@@ -88,7 +84,7 @@ export const FONTS = {
 
 // --- Typography Scale ---
 export const TYPOGRAPHY = {
-  // Font sizes (scaled)
+  
   fontSize28: sf(28),
   fontSize24: sf(24),
   fontSize17: sf(17),
@@ -98,13 +94,13 @@ export const TYPOGRAPHY = {
   fontSize11: sf(11),
   fontSize10: sf(10),
   
-  // Line heights (scaled)
+  
   lineHeight22: sh(22),
   lineHeight21: sh(21),
   lineHeight20: sh(20),
   lineHeight15: sh(15),
   
-  // Letter spacing
+  
   letterSpacingTight: -0.32,
   letterSpacingNormal: 0.07,
   letterSpacingLoose: 0.035,
@@ -113,12 +109,12 @@ export const TYPOGRAPHY = {
 
 // --- Spacing and Sizing ---
 export const SIZING = {
-  // Border radius
+ 
   borderRadiusSmall: sw(8),
   borderRadiusMedium: sw(12),
   borderRadiusLarge: sw(16),
   
-  // Padding and margins
+  
   paddingXS: sw(4),
   paddingS: sw(8),
   paddingM: sw(16),
@@ -133,7 +129,7 @@ export const SIZING = {
   questionCardHeight: sh(164),
   questionCardWidth: sw(240),
   
-  // Icon sizes
+  
   iconXS: sf(16),
   iconS: sf(20),
   iconM: sf(24),
@@ -164,7 +160,7 @@ export const commonStyles = {
   },
 } as const;
 
-// --- Main Theme Export ---
+
 const appTheme = {
   COLORS,
   FONTS,

@@ -44,33 +44,25 @@ const HomePage: React.FC = () => {
   
   const isLoading = categoriesLoading || questionsLoading;
 
-  /**
-   * Initialize data fetching on component mount
-   */
+  
   useEffect(() => {
     dispatch(fetchCategories());
     dispatch(fetchQuestions());
   }, [dispatch]);
 
-  /**
-   * Handle search input changes
-   */
+  
   const handleSearchChange = useCallback((text: string) => {
     dispatch(setSearchQuery(text));
   }, [dispatch]);
 
-  /**
-   * Handle question card press with URL opening
-   */
+  
   const handleQuestionPress = useCallback(async (uri: string) => {
     await openExternalUrl(uri, (error) => {
       console.error('Question URL error:', error);
     });
   }, []);
 
-  /**
-   * Handle premium banner press
-   */
+  
   const handlePremiumPress = useCallback(() => {
     Alert.alert(
       'Premium Features',
@@ -87,9 +79,7 @@ const HomePage: React.FC = () => {
     // TODO: Navigate to category detail screen
   }, []);
 
-  /**
-   * Render the questions section
-   */
+ 
   const renderQuestionsSection = () => (
     <View style={styles.sectionContainer}>
       <Text style={styles.sectionTitle}>Get Started</Text>
@@ -110,9 +100,7 @@ const HomePage: React.FC = () => {
     </View>
   );
 
-  /**
-   * Render the categories section
-   */
+ 
   const renderCategoriesSection = () => (
     <View style={styles.categoriesContainer}>
       {categories.map((category, index) => {
@@ -133,7 +121,7 @@ const HomePage: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {/* Background overlay */}
+     
       <View style={styles.backgroundOverlay} />
       
       {/* Main content */}
@@ -142,24 +130,17 @@ const HomePage: React.FC = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        {/* Header with search */}
         <SearchHeader
           searchQuery={searchQuery}
           onSearchChange={handleSearchChange}
         />
-
-        {/* Premium banner */}
         <View style={styles.premiumBannerContainer}>
           <PremiumBanner onPress={handlePremiumPress} />
         </View>
 
-        {/* Questions section */}
         {renderQuestionsSection()}
-
-        {/* Categories section */}
         {renderCategoriesSection()}
-
-        {/* Bottom spacing for tab bar */}
+        
         <View style={styles.bottomSpacing} />
       </ScrollView>
     </View>

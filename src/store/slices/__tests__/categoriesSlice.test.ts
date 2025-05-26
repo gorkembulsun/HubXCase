@@ -12,20 +12,56 @@ import categoriesReducer, {
   clearCategoriesError,
 } from '../categoriesSlice';
 import { API_ENDPOINTS, API_ERRORS } from '../../../constants/api';
+import { RootState, AppDispatch } from '../../../store/store'; 
+import { Category } from '../../../types'; 
 
 // Mock axios
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
+// Define mockCategories outside the describe block
+const mockCategories: Category[] = [
+  {
+    id: 1,
+    title: 'Indoor Plants',
+    image: {
+      id: 1,
+      url: 'https://example.com/indoor.jpg',
+      name: 'indoor-plants',
+    },
+    rank: 1,
+    createdAt: '2023-01-01T00:00:00Z',
+    updatedAt: '2023-01-01T00:00:00Z',
+  },
+  {
+    id: 2,
+    title: 'Outdoor Plants',
+    image: {
+      id: 2,
+      url: 'https://example.com/outdoor.jpg',
+      name: 'outdoor-plants',
+    },
+    rank: 2,
+    createdAt: '2023-01-01T00:00:00Z',
+    updatedAt: '2023-01-01T00:00:00Z',
+  },
+];
+
+// Helper function to setup the store for tests
+const setupStore = () => {
+  const store = configureStore({
+    reducer: {
+      categories: categoriesReducer,
+    },
+  });
+  return store;
+};
+
 describe('Categories Slice', () => {
-  let store: ReturnType<typeof configureStore>;
+  let store: ReturnType<typeof setupStore>;
 
   beforeEach(() => {
-    store = configureStore({
-      reducer: {
-        categories: categoriesReducer,
-      },
-    });
+    store = setupStore();
     jest.clearAllMocks();
   });
 
@@ -43,10 +79,10 @@ describe('Categories Slice', () => {
   describe('Synchronous Actions', () => {
     describe('clearCategories', () => {
       it('should clear categories and error', () => {
-        // Set some initial state
+       
         store.dispatch(setCategoriesError('Some error'));
         
-        // Clear categories
+        
         store.dispatch(clearCategories());
         
         const state = store.getState().categories;
@@ -67,10 +103,8 @@ describe('Categories Slice', () => {
 
     describe('clearCategoriesError', () => {
       it('should clear error message', () => {
-        // Set error first
+       
         store.dispatch(setCategoriesError('Some error'));
-        
-        // Clear error
         store.dispatch(clearCategoriesError());
         
         const state = store.getState().categories;
@@ -80,33 +114,6 @@ describe('Categories Slice', () => {
   });
 
   describe('Async Actions - fetchCategories', () => {
-    const mockCategories = [
-      {
-        id: 1,
-        title: 'Indoor Plants',
-        image: {
-          id: 1,
-          url: 'https://example.com/indoor.jpg',
-          name: 'indoor-plants',
-        },
-        rank: 1,
-        createdAt: '2023-01-01T00:00:00Z',
-        updatedAt: '2023-01-01T00:00:00Z',
-      },
-      {
-        id: 2,
-        title: 'Outdoor Plants',
-        image: {
-          id: 2,
-          url: 'https://example.com/outdoor.jpg',
-          name: 'outdoor-plants',
-        },
-        rank: 2,
-        createdAt: '2023-01-01T00:00:00Z',
-        updatedAt: '2023-01-01T00:00:00Z',
-      },
-    ];
-
     describe('Successful fetch', () => {
       it('should fetch categories successfully', async () => {
         const mockResponse = {
@@ -147,7 +154,7 @@ describe('Categories Slice', () => {
 
     describe('Loading states', () => {
       it('should set loading to true when fetch starts', () => {
-        const mockPromise = new Promise(() => {}); // Never resolves
+        const mockPromise = new Promise(() => {}); 
         mockedAxios.get.mockReturnValue(mockPromise as any);
 
         store.dispatch(fetchCategories());
@@ -184,7 +191,7 @@ describe('Categories Slice', () => {
     describe('Error handling', () => {
       it('should handle invalid response format', async () => {
         const mockResponse = {
-          data: null, // Invalid format
+          data: null, 
         };
         mockedAxios.get.mockResolvedValue(mockResponse);
 
@@ -286,7 +293,7 @@ describe('Categories Slice', () => {
 
   describe('State persistence', () => {
     it('should maintain state across multiple actions', async () => {
-      // Set initial error
+      
       store.dispatch(setCategoriesError('Initial error'));
       
       // Fetch categories successfully
@@ -310,7 +317,7 @@ describe('Categories Slice', () => {
       
       const state = store.getState().categories;
       expect(state.categories).toHaveLength(1);
-      expect(state.error).toBeNull(); // Error should be cleared after successful fetch
+      expect(state.error).toBeNull(); 
       expect(state.loading).toBe(false);
     });
   });
@@ -324,7 +331,6 @@ describe('Categories Slice', () => {
       };
       mockedAxios.get.mockResolvedValue(mockResponse);
 
-      // Dispatch multiple fetch requests concurrently
       const promises = [
         store.dispatch(fetchCategories()),
         store.dispatch(fetchCategories()),

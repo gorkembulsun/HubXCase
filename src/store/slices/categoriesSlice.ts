@@ -56,24 +56,16 @@ const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
-    /**
-     * Clears all categories from state
-     */
+   
     clearCategories: (state) => {
       state.categories = [];
       state.error = null;
     },
     
-    /**
-     * Sets a custom error message
-     */
     setCategoriesError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
     
-    /**
-     * Resets the error state
-     */
     clearCategoriesError: (state) => {
       state.error = null;
     },

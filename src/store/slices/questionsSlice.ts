@@ -49,9 +49,7 @@ export const fetchQuestions = createAsyncThunk<
   }
 );
 
-/**
- * Questions slice with improved error handling and state management
- */
+
 const questionsSlice = createSlice({
   name: 'questions',
   initialState,
@@ -64,16 +62,12 @@ const questionsSlice = createSlice({
       state.error = null;
     },
     
-    /**
-     * Sets a custom error message
-     */
+   
     setQuestionsError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
     },
     
-    /**
-     * Resets the error state
-     */
+    
     clearQuestionsError: (state) => {
       state.error = null;
     },

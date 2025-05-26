@@ -17,7 +17,6 @@ import {
   ViewStyle,
   TextStyle,
   ImageStyle,
-  Dimensions,
   Platform,
   ScrollView,
   StatusBar,
@@ -26,7 +25,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import appTheme from '../theme/appTheme';
-import CustomTabBar from '../components/CustomTabBar';
 import Dots from 'react-native-dots-pagination';
 import { IMAGES } from '../constants/images';
 
@@ -51,12 +49,10 @@ const UnifiedOnboardingScreen = ({
 }: UnifiedOnboardingScreenProps) => {
   // --- State ---
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedOption, setSelectedOption] = useState('1Year'); // Default to 1 Year
+  const [selectedOption, setSelectedOption] = useState('1Year'); 
   const [isLoading, setIsLoading] = useState(true);
 
-  /**
-   * Check if onboarding was already completed
-   */
+ 
   const checkOnboardingStatus = async () => {
     try {
       const completed = await AsyncStorage.getItem(ONBOARDING_COMPLETED_KEY);
@@ -72,16 +68,14 @@ const UnifiedOnboardingScreen = ({
     }
   };
 
-  /**
-   * Mark onboarding as completed and save to AsyncStorage
-   */
+  
   const completeOnboarding = async () => {
     try {
       await AsyncStorage.setItem(ONBOARDING_COMPLETED_KEY, 'true');
       navigation.replace('MainTabs');
     } catch (error) {
       console.error('Error saving onboarding completion:', error);
-      // Even if AsyncStorage fails, still navigate to main app
+      
       navigation.replace('MainTabs');
     }
   };
@@ -268,7 +262,6 @@ const UnifiedOnboardingScreen = ({
                   Get plant <Text style={styles.page2_headerTextBold}>care guides</Text>
                 </Text>
               </View>
-              {/* Brush Image */}
               <Image
                 source={IMAGES.ONBOARDING.BRUSH}
                 resizeMode="contain"
@@ -483,7 +476,7 @@ const styles = StyleSheet.create({
   },
   page0_plantImage: {
     width: sw(600),
-    height: sh(560),
+    height: sh(540),
     
   } as ImageStyle,
   page0_bottomSection: {
@@ -658,15 +651,12 @@ const styles = StyleSheet.create({
     zIndex: 5,
   },
   // --- Generic Page Styles (can be used for Page 3 or customized) ---
-  // page3_container: {
-  //   flex: 1,
-  //   backgroundColor: COLORS.backgroundLight, // Example background
-  // },
+  
   page3_container: {
     flex: 1,
   },
   page3_imageBackground: {
-    height: sh(500), // Fixed responsive height
+    height: sh(500), 
     width: '100%',
   },
   page3_textContainer: {
@@ -740,7 +730,7 @@ const styles = StyleSheet.create({
   },
   page3_optionButtonCircle: {
     width: sw(24),
-    height: sw(24), // Use sw for both to keep it circular
+    height: sw(24), 
     borderRadius: sw(12),
     borderWidth: 2,
     borderColor: '#FFFFFF',

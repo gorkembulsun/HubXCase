@@ -8,8 +8,8 @@ import { API_ERRORS } from '../constants/api';
 
 /**
  * Validates if a string is a valid URL format
- * @param url - The URL string to validate
- * @returns boolean indicating if URL is valid
+   @param url 
+   @returns 
  */
 export const isValidUrl = (url: string): boolean => {
   try {
@@ -22,8 +22,8 @@ export const isValidUrl = (url: string): boolean => {
 
 /**
  * Normalizes URL by adding protocol if missing
- * @param url - The URL string to normalize
- * @returns normalized URL with protocol
+   @param url 
+   @returns 
  */
 export const normalizeUrl = (url: string): string => {
   const cleanUrl = url.trim();
@@ -37,8 +37,8 @@ export const normalizeUrl = (url: string): string => {
 
 /**
  * Safely opens an external URL with error handling
- * @param url - The URL to open
- * @param onError - Optional error callback
+   @param url 
+   @param onError 
  */
 export const openExternalUrl = async (
   url: string,
