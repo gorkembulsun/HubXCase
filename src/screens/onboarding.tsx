@@ -20,6 +20,7 @@ import {
   Dimensions,
   Platform,
   ScrollView,
+  StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -145,7 +146,7 @@ const UnifiedOnboardingScreen = ({
   // --- Render Functions for Each Page ---
   
   /**
-   * Page 0: Welcome screen with plant background
+   * Page 0: Welcome screen
    */
   const renderPage0 = () => {
     return (
@@ -411,6 +412,7 @@ const UnifiedOnboardingScreen = ({
 
   return (
     <View style={{flex: 1}}>
+      <StatusBar barStyle="dark-content" />
       {pageContent}
     </View>
   );
@@ -480,9 +482,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   page0_plantImage: {
-    width: sw(375),
-    height: sh(499),
-    resizeMode: 'contain',
+    width: sw(600),
+    height: sh(560),
+    
   } as ImageStyle,
   page0_bottomSection: {
     marginHorizontal: sw(24),
