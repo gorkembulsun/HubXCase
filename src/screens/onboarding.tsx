@@ -1,3 +1,10 @@
+/**
+ * Onboarding Screen
+ * Multi-step onboarding flow with plant identification introduction
+ * Refactored to use centralized image constants and improved code organization
+ * Uses AsyncStorage to track completion and prevent re-showing
+ */
+
 import React, { useEffect, useState } from 'react';
 import {
   View,
@@ -14,14 +21,19 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 import appTheme from '../theme/appTheme';
 import CustomTabBar from '../components/CustomTabBar';
 import Dots from 'react-native-dots-pagination';
+import { IMAGES } from '../constants/images';
 
 // --- Scaling Helper Functions and Theme Constants ---
 const { sw, sh, sf, COLORS, FONTS, TYPOGRAPHY, SIZING } = appTheme;
+
+// --- Constants ---
+const ONBOARDING_COMPLETED_KEY = '@onboarding_completed';
 
 // --- Type Definitions ---
 type UnifiedOnboardingScreenProps = NativeStackScreenProps<
@@ -29,28 +41,85 @@ type UnifiedOnboardingScreenProps = NativeStackScreenProps<
   'Onboarding'
 >;
 
-// --- Main Component ---
+/**
+ * Unified Onboarding Screen Component
+ * Handles all onboarding steps in a single component with AsyncStorage persistence
+ */
 const UnifiedOnboardingScreen = ({
   navigation,
 }: UnifiedOnboardingScreenProps) => {
   // --- State ---
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedOption, setSelectedOption] = useState('1Year'); // Default to 1 Year
+  const [isLoading, setIsLoading] = useState(true);
+
+  /**
+   * Check if onboarding was already completed
+   */
+  const checkOnboardingStatus = async () => {
+    try {
+      const completed = await AsyncStorage.getItem(ONBOARDING_COMPLETED_KEY);
+      if (completed === 'true') {
+        // Onboarding already completed, navigate to main app
+        navigation.replace('MainTabs');
+        return;
+      }
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * Mark onboarding as completed and save to AsyncStorage
+   */
+  const completeOnboarding = async () => {
+    try {
+      await AsyncStorage.setItem(ONBOARDING_COMPLETED_KEY, 'true');
+      navigation.replace('MainTabs');
+    } catch (error) {
+      console.error('Error saving onboarding completion:', error);
+      // Even if AsyncStorage fails, still navigate to main app
+      navigation.replace('MainTabs');
+    }
+  };
 
   // --- Handlers ---
   const handlePage0Next = () => setCurrentPage(1);
   const handlePage1Next = () => setCurrentPage(2);
   const handlePage2Next = () => setCurrentPage(3);
   const handlePage3Next = () => {
-    console.log("Navigate to main app from page 3");
-    // Example: navigation.navigate('Home');
+    console.log("Completing onboarding and navigating to main app");
+    completeOnboarding();
+  };
+
+  const handleSkipOnboarding = () => {
+    console.log("Skipping onboarding");
+    completeOnboarding();
   };
 
   // --- Effects ---
   useEffect(() => {
+    checkOnboardingStatus();
+  }, []);
+
+  useEffect(() => {
     console.log('currentPage', currentPage);
   }, [currentPage]);
 
+  // Show loading or nothing while checking onboarding status
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
+
+  /**
+   * Renders pagination dots for pages 1-3
+   */
   const renderPagination = (buttonContainerBottomOffset: number) => {
     if (currentPage === 0) return null;
     const dotRowHeight = sh(8);
@@ -74,10 +143,14 @@ const UnifiedOnboardingScreen = ({
   };
 
   // --- Render Functions for Each Page ---
+  
+  /**
+   * Page 0: Welcome screen with plant background
+   */
   const renderPage0 = () => {
     return (
       <ImageBackground
-        source={require('../assets/images/onboarding_background.png')}
+        source={IMAGES.ONBOARDING.BACKGROUND}
         style={styles.page0_container}
         resizeMode="cover"
       >
@@ -98,7 +171,7 @@ const UnifiedOnboardingScreen = ({
           {/* Plant Image Section */}
           <View style={styles.page0_plantContainer}>
             <Image
-              source={require('../assets/images/onboarding_plant.png')}
+              source={IMAGES.ONBOARDING.PLANT}
               style={styles.page0_plantImage}
               resizeMode="contain"
             />
@@ -123,6 +196,9 @@ const UnifiedOnboardingScreen = ({
     );
   };
 
+  /**
+   * Page 1: Photo identification introduction
+   */
   const renderPage1 = () => {
     return (
       <View style={styles.page1_container}>
@@ -140,7 +216,7 @@ const UnifiedOnboardingScreen = ({
               the plant!
             </Text>
             <Image
-              source={require('../assets/images/onboarding1/brush_stroke.png')}
+              source={IMAGES.ONBOARDING.BRUSH_STROKE}
               style={styles.page1_brushStrokeImage}
               resizeMode="cover"
             />
@@ -149,7 +225,7 @@ const UnifiedOnboardingScreen = ({
           {/* Phone Image Section*/}
           <View style={styles.page1_phoneImageContainer}>
             <Image
-              source={require('../assets/images/onboarding1/phone.png')}
+              source={IMAGES.ONBOARDING.PHONE}
               style={styles.page1_phoneImage}
               resizeMode="contain"
             />
@@ -171,11 +247,14 @@ const UnifiedOnboardingScreen = ({
     );
   };
 
+  /**
+   * Page 2: Plant care guides introduction
+   */
   const renderPage2 = () => {
     return (
       <>
         <ImageBackground
-          source={require('../assets/images/onboarding1/leafs.png')}
+          source={IMAGES.ONBOARDING.LEAFS}
           style={styles.page2_imageBackground}
           resizeMode="cover"
         >
@@ -190,7 +269,7 @@ const UnifiedOnboardingScreen = ({
               </View>
               {/* Brush Image */}
               <Image
-                source={require('../assets/images/onboarding1/brush.png')}
+                source={IMAGES.ONBOARDING.BRUSH}
                 resizeMode="contain"
                 style={styles.page2_brushImage}
               />
@@ -198,48 +277,47 @@ const UnifiedOnboardingScreen = ({
 
             {/* Artwork Image */}
             <Image
-              source={require('../assets/images/Artwork.png')}
+              source={IMAGES.COMMON.ARTWORK}
               resizeMode="contain"
               style={styles.page2_artworkImage}
             />
 
             {/* Flat iPhone Image */}
             <Image
-              source={require('../assets/images/Flat_iphone.png')}
+              source={IMAGES.COMMON.FLAT_IPHONE}
               resizeMode="contain"
               style={styles.page2_flatIphoneImage}
             />
 
             {renderPagination(85)}
 
-            {/* Continue Button - This will now be above the TabBar if TabBar is outside SafeArea */}
-            {/* Or adjust layout if TabBar should be part of this screen's content flow */}
+            
             <TouchableOpacity
-              style={styles.page2_continueButton} // Ensure this button is positioned correctly with the new tab bar
+              style={styles.page2_continueButton}
               onPress={handlePage2Next}
             >
               <Text style={styles.page2_continueButtonText}>Continue</Text>
             </TouchableOpacity>
           </SafeAreaView>
         </ImageBackground>
-        {/* CustomTabBar added here, outside the ImageBackground and SafeAreaView of Page 2 content */}
-        {/* This ensures it appears at the bottom of the screen, potentially overlaying if not handled */}
-        {/* For it to be at the very bottom and respect safe areas, its own safeAreaContainer helps */}
       </>
     );
   };
 
   const mock = [1,1,1]
 
+  /**
+   * Page 3: Premium subscription page
+   */
   const renderPage3 = () => {
     return (
       <View style={styles.page3_container}>
         <ImageBackground
-          source={require('../assets/images/plant3.png')}
+          source={IMAGES.ONBOARDING.PLANT_3}
           style={styles.page3_imageBackground}
           resizeMode="cover"
         >
-          <TouchableOpacity onPress={() => navigation.navigate('HomePage')} style={styles.page3_closeButtonContainer}>
+          <TouchableOpacity onPress={handleSkipOnboarding} style={styles.page3_closeButtonContainer}>
             <View style={styles.page3_closeButtonBackground}>
               <Text style={styles.page3_closeButtonText}>✕</Text>
             </View>
@@ -256,9 +334,9 @@ const UnifiedOnboardingScreen = ({
                 <TouchableOpacity key={index} style={styles.page3_scrollViewItemWrapper} onPress={() => console.log(`Feature card ${index} pressed`)}>
                   <View>
                     {index === 0 ? (
-                      <Image source={require('../assets/images/unlimitedicon.png')} style={styles.page3_featureImage} />
+                      <Image source={IMAGES.ICONS.UNLIMITED} style={styles.page3_featureImage} />
                     ) : index === 1 ? (
-                      <Image source={require('../assets/images/fastericon.png')} style={styles.page3_featureImage} />
+                      <Image source={IMAGES.ICONS.FASTER} style={styles.page3_featureImage} />
                     ) : (
                       <Text style={styles.page3_featureIconText}>?</Text> // Default/fallback icon or text
                     )}
@@ -334,8 +412,6 @@ const UnifiedOnboardingScreen = ({
   return (
     <View style={{flex: 1}}>
       {pageContent}
-      {/* {currentPage === 2 && <CustomTabBar />} */}
-      {/* The above line is commented out to hide CustomTabBar */}
     </View>
   );
 };
@@ -358,7 +434,7 @@ const baseButtonTextStyle: TextStyle = {
   fontFamily: FONTS.sfProText,
   fontWeight: '700',
   lineHeight: sh(24),
-  letterSpacing: TYPOGRAPHY.letterSpacingNegative024,
+  letterSpacing: TYPOGRAPHY.letterSpacingVeryTight,
 };
 
 const styles = StyleSheet.create({
@@ -383,7 +459,7 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
     fontFamily: FONTS.rubikRegular,
     lineHeight: sh(33.18),
-    letterSpacing: TYPOGRAPHY.letterSpacing007,
+    letterSpacing: TYPOGRAPHY.letterSpacingNormal,
   },
   page0_titleBold: {
     fontFamily: FONTS.rubikBold,
@@ -395,7 +471,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.rubikRegular,
     marginTop: sh(8),
     lineHeight: TYPOGRAPHY.lineHeight22,
-    letterSpacing: TYPOGRAPHY.letterSpacing007,
+    letterSpacing: TYPOGRAPHY.letterSpacingNormal,
   },
   page0_plantContainer: {
     width: sw(375),
@@ -427,7 +503,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.rubikRegular,
     textAlign: 'center',
     lineHeight: TYPOGRAPHY.lineHeight15,
-    letterSpacing: TYPOGRAPHY.letterSpacing007,
+    letterSpacing: TYPOGRAPHY.letterSpacingNormal,
   },
   page0_termsLink: {
     textDecorationLine: 'underline',
@@ -451,7 +527,6 @@ const styles = StyleSheet.create({
   page1_titleSection: {
     left: sw(24),
     alignSelf: 'flex-start',
-    height: sh(100),
     position: 'relative',
     justifyContent: 'center',
     alignItems: 'flex-end',
@@ -474,9 +549,10 @@ const styles = StyleSheet.create({
   },
   page1_brushStrokeImage: {
     position: 'absolute',
-    marginTop: sh(20),
-    width: 141,
-    height: sh(29),
+    right: sw(-26),
+    marginTop: sh(14),
+    width: (136),
+    height: sh(12),
     resizeMode: 'contain',
   } as ImageStyle,
   page1_phoneImageContainer: {
@@ -525,6 +601,10 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
     lineHeight: sf(28 * 1.2),
     letterSpacing: sw(-0.5),
+    
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 1, height: 2 },
+    textShadowRadius: 4,
   },
   page2_headerTextBold: {
     fontFamily: FONTS.rubikBold,
@@ -733,7 +813,7 @@ const styles = StyleSheet.create({
     fontSize: sf(16),
     fontFamily: FONTS.rubikRegular,
     fontWeight: '700',
-    letterSpacing: TYPOGRAPHY.letterSpacingNegative024,
+    letterSpacing: TYPOGRAPHY.letterSpacingVeryTight,
   },
   page3_disclaimerText: {
     fontSize: sf(12),
@@ -790,6 +870,17 @@ const styles = StyleSheet.create({
     fontSize: sf(14),
     fontWeight: 'bold',
     lineHeight: sf(20),
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: sf(16),
+    fontFamily: FONTS.rubikRegular,
+    fontWeight: 'bold',
+    color: COLORS.textDark,
   },
 });
 

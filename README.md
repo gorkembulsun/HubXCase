@@ -1,97 +1,196 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 🌱 HubxCase - Plant Identification App
 
-# Getting Started
+A modern React Native application for plant identification and care, featuring a beautiful UI with onboarding, plant categories, and expert guidance.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 📱 Features
 
-## Step 1: Start Metro
+- **Onboarding Experience**: Beautiful multi-step onboarding with plant imagery
+- **Plant Categories**: Browse different plant categories with stunning visuals
+- **Expert Questions**: Access curated plant care questions and articles
+- **Premium Features**: Upgrade to unlock advanced plant identification features
+- **Search Functionality**: Find plants and information quickly
+- **Tab Navigation**: Intuitive bottom tab navigation with custom design
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 🏗️ Architecture
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+This project follows modern React Native best practices with a clean, scalable architecture:
 
-```sh
-# Using npm
-npm start
+### 📁 Project Structure
 
-# OR using Yarn
-yarn start
+```
+src/
+├── assets/                 # Static assets organized by type
+│   ├── images/
+│   │   ├── home/          # Home screen specific images
+│   │   ├── icons/         # Icon assets
+│   │   ├── onboarding/    # Onboarding images
+│   │   └── common/        # Shared images
+│   └── fonts/             # Custom font files
+├── components/            # Reusable UI components
+│   └── home/             # Home screen components
+├── constants/            # App constants and configuration
+├── navigation/           # Navigation configuration
+├── screens/             # Screen components
+├── store/               # Redux store and slices
+│   └── slices/         # Redux Toolkit slices
+├── theme/              # Design system and theming
+├── types/              # TypeScript type definitions
+└── utils/              # Utility functions
 ```
 
-## Step 2: Build and run your app
+### 🎨 Design System
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+- **Responsive Scaling**: Automatic scaling based on device dimensions
+- **Consistent Typography**: Rubik and SF Pro Text font families
+- **Color Palette**: Carefully crafted color system with semantic naming
+- **Component Library**: Reusable components with consistent styling
+
+### 🔧 State Management
+
+- **Redux Toolkit**: Modern Redux with simplified boilerplate
+- **Async Thunks**: Proper async action handling
+- **Type Safety**: Full TypeScript integration
+
+### 🌐 API Integration
+
+- **Centralized Configuration**: API endpoints and configuration in constants
+- **Error Handling**: Comprehensive error handling with user feedback
+- **Type Safety**: Strongly typed API responses
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- React Native development environment
+- Android Studio (for Android development)
+- Xcode (for iOS development)
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd HubxCasea
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Install iOS dependencies** (iOS only)
+   ```bash
+   cd ios && pod install && cd ..
+   ```
+
+4. **Start Metro bundler**
+   ```bash
+   npm start
+   # or
+   yarn start
+   ```
+
+5. **Run the application**
+   
+   For Android:
+   ```bash
+   npm run android
+   # or
+   yarn android
+   ```
+   
+   For iOS:
+   ```bash
+   npm run ios
+   # or
+   yarn ios
+   ```
+
+## 📦 Dependencies
+
+### Core Dependencies
+- **React Native**: Cross-platform mobile development
+- **React Navigation**: Navigation library with tab and stack navigators
+- **Redux Toolkit**: State management
+- **React Redux**: React bindings for Redux
+- **Axios**: HTTP client for API requests
+
+### UI & Styling
+- **React Native Linear Gradient**: Gradient effects
+- **React Native Vector Icons**: Icon library
+- **React Native Safe Area Context**: Safe area handling
+
+### Development
+- **TypeScript**: Type safety and better development experience
+- **ESLint**: Code linting
+- **Prettier**: Code formatting
+
+## 🎯 Key Features Implementation
+
+### Component Architecture
+- **Modular Components**: Each UI element is a separate, reusable component
+- **Props Interface**: Strongly typed component props
+- **Style Isolation**: Component-specific styles with theme integration
+
+### API Integration
+- **Centralized Endpoints**: All API URLs in constants file
+- **Error Handling**: Comprehensive error handling with user feedback
+- **Loading States**: Proper loading state management
+
+### Navigation
+- **Tab Navigation**: Custom tab bar with plant-themed design
+- **Stack Navigation**: Hierarchical navigation for onboarding
+- **Deep Linking**: Support for external URL opening
+
+## 🔧 Development Guidelines
+
+### Code Style
+- Use TypeScript for all new code
+- Follow the established folder structure
+- Use the centralized theme system
+- Write descriptive component and function names
+- Add JSDoc comments for complex functions
+
+### Component Creation
+- Create components in appropriate folders
+- Export through index files
+- Use theme constants for styling
+- Implement proper TypeScript interfaces
+
+### State Management
+- Use Redux Toolkit for global state
+- Create typed selectors and actions
+- Handle loading and error states properly
+
+## 🚀 Build & Deployment
 
 ### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```bash
+cd android
+./gradlew assembleRelease
 ```
 
 ### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```bash
+cd ios
+xcodebuild -workspace HubxCase.xcworkspace -scheme HubxCase -configuration Release
 ```
 
-Then, and every time you update your native dependencies, run:
+## 🤝 Contributing
 
-```sh
-bundle exec pod install
-```
+1. Follow the established code style and architecture
+2. Write TypeScript interfaces for all new features
+3. Use the centralized theme system
+4. Add proper error handling
+5. Test on both iOS and Android platforms
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## 📄 License
 
-```sh
-# Using npm
-npm run ios
+This project is licensed under the MIT License.
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Built with ❤️ using React Native and modern development practices.

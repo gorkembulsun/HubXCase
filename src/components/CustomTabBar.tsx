@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import appTheme from '../theme/appTheme';
 
 const { sw, sh, sf, COLORS, FONTS } = appTheme;
@@ -54,48 +55,119 @@ const TabBarButton: React.FC<TabBarButtonProps> = ({ label, iconSource, onPress,
   );
 };
 
-const CustomTabBar = () => {
-  const handleHomePress = () => console.log('Home pressed');
-  const handleDiagnosePress = () => console.log('Diagnose pressed');
-  const handleScanPress = () => console.log('Scan pressed');
-  const handleMyGardenPress = () => console.log('My Garden pressed');
-  const handleProfilePress = () => console.log('Profile pressed');
+const CustomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
+  // Icon mapping for each route
+  const getIconSource = (routeName: string) => {
+    switch (routeName) {
+      case 'Home':
+        return require('../assets/tabBarComponent/homeicon.png');
+      case 'Diagnose':
+        return require('../assets/tabBarComponent/healthcare.png');
+      case 'Scan':
+        return require('../assets/tabBarComponent/Scan_button.png');
+      case 'MyGarden':
+        return require('../assets/tabBarComponent/leaficon.png');
+      case 'Profile':
+        return require('../assets/tabBarComponent/profileicon.png');
+      default:
+        return require('../assets/tabBarComponent/homeicon.png');
+    }
+  };
+
+  // Label mapping for each route
+  const getLabel = (routeName: string) => {
+    switch (routeName) {
+      case 'Home':
+        return 'Home';
+      case 'Diagnose':
+        return 'Diagnose';
+      case 'Scan':
+        return 'Scan';
+      case 'MyGarden':
+        return 'My Garden';
+      case 'Profile':
+        return 'Profile';
+      default:
+        return routeName;
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <View style={styles.tabBarContainer}>
         <View style={styles.leftTabsContainer}> 
-          <TabBarButton 
-            label="Home" 
-            iconSource={require('../assets/tabBarComponent/homeicon.png')} 
-            onPress={handleHomePress} 
-            isFocused
-          />
-          <TabBarButton 
-            label="Diagnose" 
-            iconSource={require('../assets/tabBarComponent/healthcare.png')} 
-            onPress={handleDiagnosePress} 
-          />
+          {state.routes.slice(0, 2).map((route, index) => {
+            const isFocused = state.index === index;
+            const onPress = () => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              });
+
+              if (!isFocused && !event.defaultPrevented) {
+                navigation.navigate(route.name);
+              }
+            };
+
+            return (
+              <TabBarButton
+                key={route.key}
+                label={getLabel(route.name)}
+                iconSource={getIconSource(route.name)}
+                onPress={onPress}
+                isFocused={isFocused}
+              />
+            );
+          })}
         </View>
 
-        <TabBarButton 
-            label="Scan"
-            iconSource={require('../assets/tabBarComponent/Scan_button.png')}
-            onPress={handleScanPress} 
+        {/* Scan Button (middle) */}
+        {state.routes[2] && (
+          <TabBarButton
+            label={getLabel(state.routes[2].name)}
+            iconSource={getIconSource(state.routes[2].name)}
+            onPress={() => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: state.routes[2].key,
+                canPreventDefault: true,
+              });
+
+              if (!event.defaultPrevented) {
+                navigation.navigate(state.routes[2].name);
+              }
+            }}
             isScanButton
-        />
+          />
+        )}
         
         <View style={styles.rightTabsContainer}>
-          <TabBarButton 
-            label="My Garden" 
-            iconSource={require('../assets/tabBarComponent/leaficon.png')} 
-            onPress={handleMyGardenPress} 
-          />
-          <TabBarButton 
-            label="Profile" 
-            iconSource={require('../assets/tabBarComponent/profileicon.png')} 
-            onPress={handleProfilePress} 
-          />
+          {state.routes.slice(3, 5).map((route, index) => {
+            const actualIndex = index + 3;
+            const isFocused = state.index === actualIndex;
+            const onPress = () => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: route.key,
+                canPreventDefault: true,
+              });
+
+              if (!isFocused && !event.defaultPrevented) {
+                navigation.navigate(route.name);
+              }
+            };
+
+            return (
+              <TabBarButton
+                key={route.key}
+                label={getLabel(route.name)}
+                iconSource={getIconSource(route.name)}
+                onPress={onPress}
+                isFocused={isFocused}
+              />
+            );
+          })}
         </View>
       </View>
     </SafeAreaView>
@@ -115,7 +187,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between', 
     alignItems: 'flex-start',
-    backgroundColor: 'transparent',
     borderTopWidth: 0.5,
     borderTopColor: COLORS.tabBarBorder,
   },
