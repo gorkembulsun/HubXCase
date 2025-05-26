@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Entypo from 'react-native-vector-icons/Entypo';
 import appTheme from '../theme/appTheme';
 import CustomTabBar from '../components/CustomTabBar';
 
@@ -135,18 +136,18 @@ const HomePage = () => {
       >
         {/* Premium Box */}
         <TouchableOpacity style={styles.premiumBox} activeOpacity={0.8}>
-          <View style={styles.premiumContent}>
-            <View style={styles.premiumTextContainer}>
-              <Text style={styles.premiumTitle}>FREE Premium Available</Text>
-              <Text style={styles.premiumSubtitle}>Tap to upgrade your account!</Text>
-            </View>
-            <View style={styles.premiumIconContainer}>
-              <View style={styles.premiumIcon}>
-                <Text style={styles.premiumIconText}>🌿</Text>
+        <View style={styles.premiumIconContainer}>
+              <View>
+                <Entypo name="mail" size={sf(32)} color="#E5C990" />
               </View>
               <View style={styles.premiumBadge}>
                 <Text style={styles.premiumBadgeText}>1</Text>
               </View>
+            </View>
+          <View style={styles.premiumContent}>
+            <View style={styles.premiumTextContainer}>
+              <Text style={styles.premiumTitle}>FREE Premium Available</Text>
+              <Text style={styles.premiumSubtitle}>Tap to upgrade your account!</Text>
             </View>
           </View>
           <Text style={styles.arrowIcon}>›</Text>
@@ -342,17 +343,6 @@ const styles = StyleSheet.create({
   premiumIconContainer: {
     marginRight: sw(12),
     position: 'relative',
-  },
-  premiumIcon: {
-    width: sw(36),
-    height: sh(30),
-    backgroundColor: 'rgba(232, 176, 70, 0.2)',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  premiumIconText: {
-    fontSize: sf(20),
   },
   premiumBadge: {
     position: 'absolute',
