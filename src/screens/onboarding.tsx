@@ -544,10 +544,10 @@ const styles = StyleSheet.create({
   },
   page1_brushStrokeImage: {
     position: 'absolute',
-    right: sw(-26),
+    right: sw(-15),
     marginTop: sh(14),
-    width: (136),
-    height: sh(12),
+    width: sw(136),
+    height: sh(14),
     resizeMode: 'contain',
   } as ImageStyle,
   page1_phoneImageContainer: {
@@ -586,9 +586,10 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'android' ? sh(47) : 0,
   },
   page2_headerTextContainer: {
-    position: 'relative',
     left: sw(24),
     alignSelf: 'flex-start',
+    
+    
   },
   page2_headerText: {
     fontSize: TYPOGRAPHY.fontSize28,
@@ -607,12 +608,12 @@ const styles = StyleSheet.create({
     color: COLORS.textDark,
   },
   page2_brushImage: {
-    width: 152,
-    height: sh(13),
-    top: 3,
     alignSelf: 'flex-end',
-    alignItems: 'flex-end',
-    resizeMode: 'contain',
+    width: sw(152),
+    height: sh(13),
+    resizeMode: 'cover',
+    
+    
   } as ImageStyle,
   page2_artworkImage: {
     position: 'absolute',
